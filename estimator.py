@@ -28,7 +28,7 @@ def estimate(str):
             except csv.Error as err:
                 sys.exit("An error occured when reading file: %s" % err)
     except IOError:
-        print("File not accessible")
+        sys.exit("File not accessible")
     while True:
         mileage = 0
         estimate = 0
