@@ -6,7 +6,7 @@ price = []
 theta0 = 0.0
 theta1 = 0.0
 m = 0
-iterations  = 2000
+iterations  = 100000
 learningRate = 0.01
 
 def readData(str):
@@ -32,26 +32,22 @@ def readData(str):
     price.pop(0)
     m = len(price) 
 
+
+def derive(t0, t1):
+    d0 = 0.0
+    d1 = 0.0
+    for j in range(0, m):
+        d0 += t0 + (t1 * mileage[j] / 10000) - price[j]
+        d1 += (t0 + (t1 * mileage[j] / 10000) - price[j]) * mileage[j] / 10000
+    return([d0, d1])
+
 def linearRegression():
     tmp0 = theta0
-    tmp1 = theta1
-    
+    tmp1 = theta1 
     for i in range(0, iterations):
-    
-        d0 = 0.0
-        d1 = 0.0
-        
-        for j in range(0, m):
-            d0 += tmp0 + (tmp1 * mileage[j] / 10000) - price[j]
-            d1 += (tmp0 + (tmp1 * mileage[j] / 10000) - price[j]) * mileage[j] / 10000
-        d1 = d1/m
-        d0 = d0/m
-        new0 = tmp0 - (learningRate * d0)
-        new1 = tmp1 - (learningRate * d1)  
-        
-        tmp0 = new0
-        tmp1 = new1
-    
+        derives = derive(tmp0, tmp1)
+        tmp0 = tmp0 - (learningRate * (derives[0]/m))
+        tmp1 = tmp1 - (learningRate * (derives[1]/m))  
     return [tmp0, tmp1]
 
 def train(str):
@@ -61,9 +57,9 @@ def train(str):
         filename = str
     readData(filename)
     print(m)
-    teta = linearRegression()
+    theta = linearRegression()
     print("teta")
-    print(teta)
+    print(theta)
 
 if __name__ == "__main__":
     if (len(sys.argv) == 1):
