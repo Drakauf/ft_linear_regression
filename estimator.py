@@ -3,7 +3,7 @@ import csv
 from numbers import Number
 
 def estimate(str):
-    print("\n=== This is the estimator ===")
+    print("=== This is the estimator ===")
     teta0 = 0
     teta1 = 0
     filename = "estimateData.csv"
@@ -38,12 +38,20 @@ def estimate(str):
             sys.exit(0)
         except:
             sys.exit(0)
+        if mil == "quit"
+            sys.exit("Quitting the beautiful estimator")
         try:
             mileage = int(mil)
-            estimate = float(teta0) + (float(teta1) * mileage / 10000)
-            print('Estimated price: %d' %(int(estimate)))
+            if mileage > 0:
+                estimate = float(teta0) + (float(teta1) * mileage / 10000)
+                if estimate >= 0:
+                    print('Estimated price: %d\n' %(int(estimate)))
+                else:
+                    print("It no longer has any value\n")
+            else:
+                print("Enter valide mileage\n")
         except ValueError as e:
-            print("Not a valid number(enter an int): %s" %(mil))
+            print("Not a valid number(enter an int): %s\n" %(mil))
 
 if __name__ == "__main__":
     if (len(sys.argv) == 1):
