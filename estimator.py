@@ -38,7 +38,7 @@ def estimate(str):
             sys.exit(0)
         except:
             sys.exit(0)
-        if mil == "quit"
+        if mil == "quit":
             sys.exit("Quitting the beautiful estimator")
         try:
             mileage = int(mil)

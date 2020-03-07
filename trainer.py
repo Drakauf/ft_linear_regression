@@ -23,7 +23,7 @@ def readData(str):
                             pri = float(line[1])
                         except ValueError as e:
                             sys.exit('Not a valid number %s' % e)
-                        mileage.append(mil / 10000)
+                        mileage.append(mil)
                         price.append(pri)
             except csv.Error as err:
                 sys.exit("An error occured when reading file: %s" % err)
@@ -38,8 +38,8 @@ def derive(t0, t1):
     d0 = 0.0
     d1 = 0.0
     for j in range(0, m):
-        d0 += t0 + (t1 * mileage[j]) - price[j]
-        d1 += (t0 + (t1 * mileage[j]) - price[j]) * mileage[j]
+        d0 += t0 + (t1 * mileage[j]/10000) - price[j]
+        d1 += (t0 + (t1 * mileage[j]/10000) - price[j]) * mileage[j]/10000
     return([d0, d1])
 
 def linearRegression():
@@ -62,7 +62,7 @@ def write(destname, theta):
 def train(src, dest ,g):
     print("\033[1;35m=== This is the trainer ===\033[m")
     filename = "data.csv"
-    destname = "estimateData.csv"
+    destName = "estimateData.csv"
     if src != None:
         filename = src
     if dest != None:
@@ -83,12 +83,14 @@ def train(src, dest ,g):
         plt.plot(mileage, price, 'ro')
         plt.xlabel('Mileage')
         plt.ylabel('Price')
-        plt.plot([min(mileage), max(mileage)],[theta[0] + (theta[1] * min(mileage)), theta[0] + (theta[1] * max(mileage))])
+        plt.plot([min(mileage), max(mileage)],[theta[0] + (theta[1] * min(mileage)/10000), theta[0] + (theta[1] * max(mileage)/10000)])
         plt.show()
 
 if __name__ == "__main__":
     if (len(sys.argv) == 1):
         train(None, None, False)
+    elif len(sys.argv) == 2 and sys.argv[1] == "-g":
+        train(None, None, True)
     elif len(sys.argv) == 2:
         train(sys.argv[1], None, False)
     elif len(sys.argv) == 3 and sys.argv[2] == "-g":
