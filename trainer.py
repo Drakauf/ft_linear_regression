@@ -9,6 +9,7 @@ theta1 = 0.0
 m = 0
 iterations  = 100000
 learningRate = 0.01
+cost = 0
 
 def readData(str):
     global m
@@ -33,7 +34,6 @@ def readData(str):
     price.pop(0)
     m = len(price) 
 
-
 def derive(t0, t1):
     d0 = 0.0
     d1 = 0.0
@@ -43,8 +43,9 @@ def derive(t0, t1):
     return([d0, d1])
 
 def linearRegression():
+    global m
     tmp0 = theta0
-    tmp1 = theta1 
+    tmp1 = theta1
     for i in range(0, iterations):
         derives = derive(tmp0, tmp1)
         tmp0 = tmp0 - (learningRate * (derives[0]/m))
@@ -52,12 +53,23 @@ def linearRegression():
     return [tmp0, tmp1]
 
 def write(destname, theta):
+    global theta0 
+    global theta1
+    
+    theta0 = theta[0]
+    theta1 = theta[1]
     try:
         with open(destname, 'w') as f:
             fcsv = csv.writer(f, delimiter=",", quotechar='|', quoting=csv.QUOTE_MINIMAL)
             fcsv.writerow(theta)
     except IOError:
         sys.exit("File not accessible")
+
+def calcPreci():
+    global cost
+    for i in range(0, m):
+        cost += abs(1 - (theta0 + (theta1 * mileage[i] / 10000)) / price[i])
+    return((cost/m)*100)
 
 def train(src, dest ,g):
     print("\033[1;35m=== This is the trainer ===\033[m")
@@ -77,8 +89,9 @@ def train(src, dest ,g):
     theta = linearRegression()
     print("-> Final Theta0 = \033[1;31m%f\033[0m" %theta[0])
     print("-> Final Theta1 = \033[1;31m%f\033[0m" %theta[1])
-    print("output file: \033[1;31m%s\033[0m" %destName)
     write(destName, theta);
+    print("-> Precision: \033[1;31m%f\033[0m" %calcPreci())
+    print("output file: \033[1;31m%s\033[0m" %destName)
     if g:
         plt.plot(mileage, price, 'ro')
         plt.xlabel('Mileage')
