@@ -42,7 +42,7 @@ def estimate(str):
             sys.exit("Quitting the beautiful estimator")
         try:
             mileage = int(mil)
-            if mileage > 0:
+            if mileage >= 0:
                 estimate = float(teta0) + (float(teta1) * mileage / 10000)
                 if estimate >= 0:
                     print('Estimated price: %d\n' %(int(estimate)))
