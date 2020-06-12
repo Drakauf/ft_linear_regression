@@ -6,5 +6,3 @@ ft_linear_regression
 <p>Ce projet sera votre première étape dans l'IA et l'apprentissage automatique. Vous allez commencer par un algorithme d'apprentissage machine simple et basique. Vous devrez créer un programme qui prédit le prix d'une voiture en utilisant un train de fonctions linéaires avec un algorithme de descente de gradient.</p>
 
 ----
-<p align="right">
-Credits </br><a href="https://github.com/Drakauf">shthevak</a>
